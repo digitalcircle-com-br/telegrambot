@@ -1,4 +1,4 @@
-module gitea.digitalcircle.com.br/tools/telegrambot
+module github.com/digitalcircle-com-br/telegrambot
 
 go 1.18
 

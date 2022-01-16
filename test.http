@@ -1,7 +1,0 @@
-POST https://tbot.digitalcircle.com.br/pub
-X-API-KEY: {{xapikey}}
-
-{
-    "ch":"a",
-    "msg":"FAFA 💀 from api"
-}

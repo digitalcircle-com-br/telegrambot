@@ -132,7 +132,7 @@ func Pub(ch string, msg string) (ret string, err error) {
 	c := bot.Client()
 	sb := strings.Builder{}
 	for _, v := range subs {
-		_, err = c.SendMessage(v.ChatID, fmt.Sprintf("[*%s*]: %s", ch, msg), tbot.OptParseModeHTML)
+		_, err = c.SendMessage(v.ChatID, fmt.Sprintf("<b>%s</b>: %s", ch, msg), tbot.OptParseModeHTML)
 		if err != nil {
 			sb.WriteString("* ")
 			sb.WriteString(v.FirstName)

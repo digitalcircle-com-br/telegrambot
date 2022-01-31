@@ -124,6 +124,11 @@ func InitBot() error {
 
 	H("/login.*", func(m *tbot.Message) (ret string, err error) {
 		parts := strings.Split(m.Text, " ")
+		if len(parts) != 2 {
+			ret = "usage: /login <password>"
+			return
+		}
+
 		pass := parts[1]
 		if pass == userpass {
 			s := &Session{ChatID: m.Chat.ID}
@@ -137,7 +142,6 @@ func InitBot() error {
 	})
 
 	H("/logout", func(m *tbot.Message) (ret string, err error) {
-
 		s := &Session{ChatID: m.Chat.ID}
 		err = db.Where(s).Delete(s).Error
 		ret = "Logout ok"
@@ -147,6 +151,10 @@ func InitBot() error {
 
 	H("/pub.*", func(m *tbot.Message) (ret string, err error) {
 		parts := strings.Split(m.Text, " ")
+		if len(parts) < 3 {
+			ret = "usage: /pub <channel name> message"
+			return
+		}
 		ch := parts[1]
 		msg := strings.Join(parts[2:], " ")
 		return Pub(ch, msg)
@@ -155,6 +163,10 @@ func InitBot() error {
 
 	H("/subbers.*", func(m *tbot.Message) (ret string, err error) {
 		parts := strings.Split(m.Text, " ")
+		if len(parts) != 2 {
+			ret = "usage: /subbers <channel name>"
+			return
+		}
 		ch := parts[1]
 
 		subs := make([]Sub, 0)
@@ -232,6 +244,15 @@ func InitBot() error {
 			sb.WriteString("\n")
 		}
 		return sb.String(), err
+	})
+
+	H("/help", func(m *tbot.Message) (ret string, err error) {
+		return `/sub to subscribe a channel
+/unsub to unsubscribe
+/mysubs to list user own subscriptions
+/subbers to list all users subscribing a channel
+/pub will send a message to a channel
+`, nil
 	})
 
 	H(".*", func(m *tbot.Message) (ret string, err error) {
